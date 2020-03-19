@@ -1,0 +1,7 @@
+、provider
+	、有接口直接给consumer消费的
+	、有接口先给processor，再给到consumer
+、consumer
+	、可以有backup
+、processor
+	、有一个方法是这样的：随机生成key，放进topic不同的partition

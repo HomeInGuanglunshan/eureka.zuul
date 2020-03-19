@@ -1,0 +1,61 @@
+eureka.zuul
+
+、完全仿制cmp？
+	、一个registry
+	、一个gateway
+	、好多模块？
+、要实现的功能：
+	、网络代理
+	、模块间服务调用
+		、feign？
+
+http://localhost:10100/
+http://eureka-major.com:10100
+
+http://localhost:11100/sendMsg?msg=hello
+http://localhost:11100/sendMsgContinuously
+http://localhost:11100/sendMsgContinuously?times=10
+http://localhost:11100/sendToMultiParts?times=10
+http://localhost:11100/sendToProcessor?times=10
+
+http://localhost:11000/
+
+http://localhost:10700/
+http://localhost:10700/abc/xyz
+http://localhost:10700/dev
+
+http://localhost:10700/../spring-cloud-client/pom.xml
+
+http://localhost:10700/config-client-dev.properties
+http://localhost:10700/config-server-dev.properties
+
+http://localhost:10700/eureka.zuul.cousin-dev.yml
+
+http://localhost:10800/hello
+http://localhost:10801/hello
+http://localhost:10800/actuator/info
+http://localhost:10800/actuator/health
+
+http://localhost:10901/actuator/health
+http://localhost:10901/actuator/info
+
+http://localhost:10500/actLikeGirl?methodName=wakeUpAfter&millis=6000
+http://localhost:10500/actLikeGirl?methodName=sayHello
+
+http://localhost:10500/getIdFromGirl?id=10086
+http://localhost:10500/sayHelloAsBoy
+http://localhost:10500/wakeUpAsGirlAfter?millis=100
+http://localhost:10500/usersShow
+
+http://localhost:10400/updateABC
+http://localhost:10400/wakeUpAfter?millis=1
+http://localhost:10400/wakeUpAgainAfter?millis=5000
+
+http://localhost:10201/eureka.zuul.uncle/sayHello
+
+http://localhost:10200/eureka.zuul.boy/sayHello
+http://localhost:10200/eureka.zuul.boy/growUp
+http://localhost:10200/eureka.zuul.boy/waitForUncle
+http://localhost:10500/busy
+
+https://blog.csdn.net/tianyaleixiaowu/article/details/78772269

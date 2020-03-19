@@ -1,0 +1,14 @@
+server:
+  port: 10900
+spring:
+  application:
+    name: eureka.zuul.actuator
+  profiles:
+    active: actuator
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:123456@eureka-major.com:10100/eureka/,http://admin:123456@eureka-backup1.com:10101/eureka/,http://admin:123456@eureka-backup2.com:10102/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

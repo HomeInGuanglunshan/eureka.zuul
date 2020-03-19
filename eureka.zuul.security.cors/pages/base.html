@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Title</title>
+ <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+ <script src="https://cdn.staticfile.org/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+ <script type="text/javascript">
+  function crosRequest(){
+     //refer to: https://www.jb51.cc/ajax/160212.html
+     //$.cookie('JSESSIONID','FCCBD0BE0F2E2B2203301D8021100BCB',{ path: '/' });
+     $.cookie('JSESSIONID','FCCBD0BE0F2E2B2203301D8021100BCB');
+     $.ajax({
+       url:'http://localhost:11502/base/base',
+       type:'get',
+	   //已拒绝设置一个禁止头的尝试：Cookie
+	   //headers: { "Cookie":"JSESSIONID=A1A9392B3140037D2C2AE56E1A573532" },
+       //dataType:'json',
+       success:function(data){
+       console.log(data);
+      }
+     });
+  }
+ </script>
+</head>
+<body>
+ <button onclick="crosRequest()">crosRequest</button>
+</body>
+</html>

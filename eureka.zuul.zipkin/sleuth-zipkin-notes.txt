@@ -1,0 +1,40 @@
+、zipkin server 默认访问地址为http://server-host:server-port/
+	、不用像 springboot 1.0 那样，在后面加个 /zipkin
+		、加了会报错？
+、zipkin 默认注册到 http://localhost:9411/ 中去
+	、zipkin server 也默认注册到http://localhost:9411/中去
+		、即向自己注册自己
+	、如果不想注册到 zipkin server 中去，可以 spring.zipkin.enabled: false
+		、此做法常用于 zipkin server 的配置中
+			、spring.sleuth.enabled: false 也常用于 zipkin server 的配置中
+		、spring.zipkin.enabled 的默认值为 true
+			、所以 spring-cloud-starter-zipkin 放在父 pom.xml 的时候，registry 也注册到 zipkin 中去了。
+	、如果默认的http://localhost:9411/不存在，就得指定了
+		、spring.zipkin.base-url: http://server-host:server-port/
+、zipkin server 的 application name 没有明确规定
+	、就是说，application name 叫 zipkin 也可以，叫 kkk 也可以
+、在 springboot 1.0 中为 spring.sleuth.sampler.percentage，在 springboot 2.0 中为 spring.sleuth.sampler.probability
+	、采样率，默认值为0.1f。为1时，采样率为 100%
+、https://blog.csdn.net/gavinkelland/article/details/80996787 的这个配置有点意思，有空可以研究研究
+	# zipkin 配置
+	# 采集率
+	spring.sleuth.sampler.probability=1.0
+	# zipkin链接方式
+	spring.zipkin.sender.type=rabbit
+	#是否启动zipkin，默认为true
+	spring.zipkin.enabled=true
+	# 支持通过服务发现来定位host name：
+	spring.zipkin.locator.discovery.enabled=true
+
+	#rabbitmq 配置
+	spring.rabbitmq.host=@spring.rabbitmq.host@
+	spring.rabbitmq.port=@spring.rabbitmq.port@
+	spring.rabbitmq.username=@spring.rabbitmq.username@
+	spring.rabbitmq.password=@spring.rabbitmq.password@
+	spring.rabbitmq.publisher-confirms=@spring.rabbitmq.publisher-confirms@
+	spring.rabbitmq.virtual-host=@spring.rabbitmq.virtual-host@
+	
+	、其中spring.zipkin.sender.type=rabbit，我猜测是把消息放进诸如 rabbit 的队列，然后 server 作为 consumer 从队列拉取消息
+
+、不同的 zipkin 版本，数据库中创建的三表 zipkin_annotations、zipkin_dependencies、zipkin_spans 的字段也略有不同
+	、目前还没有搞清楚如何在 springboot 2.0 自动建此三表

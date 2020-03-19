@@ -1,0 +1,14 @@
+server:
+  port: 11502
+
+spring:
+  application:
+    name: eureka.zuul.security.cors
+  security:
+    #ignored: /hello
+    user:
+      name: admin
+      password: 123456
+
+#阻止启动时提示CONDITION EVALUATION DELTA
+spring.devtools.restart.log-condition-evaluation-delta: false

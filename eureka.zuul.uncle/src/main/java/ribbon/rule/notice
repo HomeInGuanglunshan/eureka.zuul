@@ -1,0 +1,6 @@
+、robbin的IRule必须放在application.java所在的包及其子包以外，例如当前包。或者放在eureka.zuul.ribbon模块中。
+	、实现自定义负载均衡规则，特别注意 ： 该类不能被放在打有@ComponentScan标签或者@SpringBootApplication标签的类的包及其子包中，因为该类不能被ComponetScan给扫描到，否则将会覆盖掉其他所有的RibbonClient,所以请给该类额外分一个包
+		、https://www.jianshu.com/p/e92d9a5c7053
+、而@RibbonClient必须被ComponetScan扫描到
+	、建议放在application.java所在的包或其子包中
+	、或者明确指定scanBasePackages

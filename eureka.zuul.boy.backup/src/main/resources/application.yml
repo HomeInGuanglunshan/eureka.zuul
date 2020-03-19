@@ -1,0 +1,54 @@
+server:
+  port: 10301
+spring:
+  application:
+    name: eureka.zuul.boy
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shiro_demo?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 1234
+    initialSize: 3 
+    minIdle: 2
+    maxActive: 60
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    removeAbandoned: true
+    removeAbandonedTimeout: 120
+    logAbandoned: false
+    filters: stat
+    # database connection pool setting
+    type: com.alibaba.druid.pool.DruidDataSource
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+  jpa:
+    # Specify the DBMS
+    database: MYSQL
+    # Show or not log for each sql query
+    show-sql: true
+    # Hibernate ddl auto (create, create-drop, update)
+    hibernate.ddl-auto: update
+    # Naming strategy
+    hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    # stripped before adding them to the entity manager
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:123456@127.0.0.1:10100/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#    lease-expiration-duration-in-seconds: 20
+#    lease-renewal-interval-in-seconds: 10
+
+ribbon:
+  ReadTimeout: 60000
+  ConnnectionTimeout: 60000

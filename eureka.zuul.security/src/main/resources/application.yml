@@ -1,0 +1,68 @@
+server:
+  port: 11500
+
+spring:
+  application:
+    name: eureka.zuul.security
+  thymeleaf:
+    mode: HTML5
+    encoding: UTF-8
+    cache: false
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/spring-security?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: 1234
+    initialSize: 3 
+    minIdle: 2
+    maxActive: 60
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 30000
+    validationQuery: SELECT 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    removeAbandoned: true
+    removeAbandonedTimeout: 120
+    logAbandoned: false
+    filters: stat
+    # database connection pool setting
+    type: com.alibaba.druid.pool.DruidDataSource
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    useGlobalDataSourceStat: true
+  jpa:
+    # Specify the DBMS
+    database: MYSQL
+    # Show or not log for each sql query
+    show-sql: true
+    # Hibernate ddl auto (create, create-drop, update)
+    hibernate.ddl-auto: update
+    # Naming strategy
+    hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    # stripped before adding them to the entity manager
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:123456@eureka-major.com:10100/eureka/,http://admin:123456@eureka-backup1.com:10101/eureka/,http://admin:123456@eureka-backup2.com:10102/eureka/
+  instance:
+    preferIpAddress: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+ribbon:
+  ReadTimeout: 60000
+  ConnnectionTimeout: 60000
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+
+#阻止启动时提示CONDITION EVALUATION DELTA
+spring.devtools.restart.log-condition-evaluation-delta: false
+

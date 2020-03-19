@@ -1,0 +1,26 @@
+server:
+  port: 10101
+spring:
+  application.name: eureka.zuul.registry
+  security:
+    user:
+      name: admin
+      password: 123456
+eureka:
+  instance:
+    #instance-id: eureka-backup1
+    #当各个注册中心位于同一机子上时，不能使用localhost，要使用域名，hosts的DNS解析必须配置
+    hostname: eureka-backup1.com
+  client:
+    #当register-with-eureka为false时，虽然控制台没有报错，但是其他registry皆为unavailable-replicas
+    register-with-eureka: true
+    #registry-fetch-interval-seconds: 
+    fetch-registry: false
+    service-url:
+      #defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@127.0.0.1:${server.port}/eureka/
+      #defaultZone: http://admin:123456@127.0.0.1:${server.port}/eureka/
+      defaultZone: http://admin:123456@eureka-major.com:10100/eureka/,http://admin:123456@eureka-backup2.com:10102/eureka/
+  server:
+    #enable-self-preservation: false
+    eviction-interval-timer-in-ms: 15000
+    
