@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+<title>Login Page</title>
+<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
+</head>
+<body onload="document.f.username.focus();">
+	<h3>Login with Username and Password</h3>
+	<form name="f" id="form">
+		<table>
+			<tbody>
+				<tr>
+					<td>User:</td>
+					<td><input id="username" name="username" type="text" value=""></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input id="password" name="password" type="password"></td>
+				</tr>
+				<tr>
+					<!-- <td colspan="2"><input id="login" type="submit" -->
+						<!-- value="login"></td> -->
+					<!-- type="submit"对 ajax 造成干扰 -->
+					<!-- https://blog.csdn.net/AnPHPer/article/details/78303669 -->
+					<td colspan="2"><input id="login" type="button" value="login"></td>
+				</tr>
+			</tbody>
+		</table>
+	</form>
+	<p>Test:</p>
+	<h4>
+		<input id="base" type="button" value="base">&nbsp;&nbsp;<input id="hello" type="button" value="hello">
+	</h4>
+</body>
+<script>
+	$(document).ready(function(){
+		//回车事件绑定
+		document.onkeydown=function(event){
+			var e = event || window.event || arguments.callee.caller.arguments[0];
+			if(e && e.keyCode==13){ 
+				$('#login').click();
+			}
+		}; 
+	
+		$("#login").click(function(){
+			var username = $('#username').val();
+			var password = $('#password').val();
+			var data = { username:username, password:password };
+			$.ajax({
+				url: 'http://localhost:11502/login',
+				data: data,
+				type: 'post',
+				dataType: 'json',
+				<!-- refer to: https://www.cnblogs.com/helloyy/p/6109665.html -->
+				<!-- crossDomain: true, -->
+				<!-- beforeSend: function(xhr){ -->
+					<!-- xhr.withCredentials = true; -->
+				<!-- } -->
+				success: function(result){
+					console.log(result);
+				}
+			})
+		})
+		
+		$("#base").click(function(){
+			$.ajax({
+				url: 'http://localhost:11502/base/base',
+				beforeSend: function(xhr){
+					xhr.withCredentials = true;
+				},
+				success: function(result){
+					console.log(result);
+				}
+			})
+		})
+		
+		$("#hello").click(function(){
+			$.ajax({
+				url: 'http://localhost:11502/cors/hello',
+				success: function(result){
+					console.log(result);
+				}
+			})
+		})
+	})
+</script>
+</html>

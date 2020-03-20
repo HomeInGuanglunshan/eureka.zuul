@@ -1,2 +1,4 @@
 http://localhost:11502/cors/hello
 http://localhost:11502/base/base
+http://localhost:11502/
+http://localhost:11502/login

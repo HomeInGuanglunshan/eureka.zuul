@@ -1,6 +1,9 @@
 package eureka.zuul.security.cors.config;
 
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,17 +15,59 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableList;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+//	@Value("${server.servlet.session.cookie.name:JSESSIONID}")
+//	String COOKIE_NAME;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.formLogin().and().authorizeRequests().anyRequest().authenticated().and()
 				// by default uses a Bean by the name of corsConfigurationSource
 				// 貌似不太行。refer to: https://blog.csdn.net/oblily/article/details/87880904
-				.cors();
+				.cors().and() // 没有这句，跨域login失败
+				.csrf().disable();
+		http.exceptionHandling().authenticationEntryPoint((request, response, exceptioin) -> {
+			response.setContentType("application/json;charset=utf-8");
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("status", 401);
+			map.put("message", "please login");
+
+			PrintWriter writer = response.getWriter();
+			writer.write(JSONObject.toJSONString(map));
+			writer.flush();
+			writer.close();
+		});
+		http.formLogin().successHandler((request, response, authentication) -> {
+			response.setContentType("application/json;charset=utf-8");
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("status", 200);
+			map.put("message", "login successfully");
+
+			PrintWriter writer = response.getWriter();
+			writer.write(JSONObject.toJSONString(map));
+			writer.flush();
+			writer.close();
+		});
+//		http.logout().clearAuthentication(true).invalidateHttpSession(true).deleteCookies(COOKIE_NAME);
+		http.logout().logoutSuccessHandler((request, response, authentication) -> {
+			response.setContentType("application/json;charset=utf-8");
+
+			Map<String, Object> map = new HashMap<>();
+			map.put("status", 200);
+			map.put("message", "logout successfully");
+
+			PrintWriter writer = response.getWriter();
+			writer.write(JSONObject.toJSONString(map));
+			writer.flush();
+			writer.close();
+		});
 	}
 
 	@Override

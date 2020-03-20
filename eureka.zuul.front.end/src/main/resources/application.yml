@@ -1,0 +1,9 @@
+server:
+  port: 11600
+
+spring:
+  application:
+    name: eureka.zuul.front.end
+
+#阻止启动时提示CONDITION EVALUATION DELTA
+spring.devtools.restart.log-condition-evaluation-delta: false
